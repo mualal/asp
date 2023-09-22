@@ -1,0 +1,106 @@
+% !TeX spellcheck = en_US
+% !TeX program = xelatex
+
+\documentclass[a4paper,12pt]{article}
+\renewcommand{\baselinestretch}{1.2}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A, T1]{fontenc}
+\usepackage[english, russian]{babel}
+
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{setspace, amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{epsfig}
+\usepackage{pdfpages}
+
+\makeatletter
+\let\@fnsymbol\@arabic
+\makeatother
+
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={174mm, 257mm},
+left=18mm,
+top=20mm,
+}
+
+\usepackage{systeme}
+\usepackage{skak}
+\usepackage{mathtools}
+\usepackage{unicode-math}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{subfiles}
+\usepackage{hyperref}
+\hypersetup{pdfstartview=FitH, linkcolor=black, urlcolor=blue, colorlinks=true}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{color}
+\usepackage{chngcntr}
+\usepackage{tikz}
+\usepackage{csquotes}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{comment}
+\usepackage{adjustbox}
+\usepackage[breakable, skins]{tcolorbox}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\hyperlink{page.1}{\textcolor{violet}{Вернуться к содержанию}}}
+%\fancyhead[L]{\leftmark \\ \rightmark}
+%\fancyhead[R]{\thepage}
+%\fancyhead[R]{\rightmark}
+\fancyfoot[C]{\thepage}
+%\fancyfoot[L]{\rightmark}
+
+\usepackage{float}
+\floatstyle{plaintop}
+\usepackage{enumitem}
+%\setcounter{section}{-1}
+
+\graphicspath{{./img/}}
+\newcommand{\myPictWidth}{.95\textwidth}
+\newcommand{\phm}{\phantom{-}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+
+\newenvironment{eclrun}
+{\VerbatimEnvironment
+\begin{tcolorbox}[breakable,boxrule=0.5pt,colframe=gray!50]
+\begin{Verbatim}
+}
+{
+\end{Verbatim}	
+\end{tcolorbox}
+}
+
+\newenvironment{nohyphen}
+  {\tolerance=1
+   \emergencystretch=\maxdimen
+   \hyphenpenalty=10000
+   \hbadness=10000}
+  {\par}
+
+\usepackage{tocloft}
+\setlength{\cftsubsecindent}{5pt}
+\setlength{\cftsubsubsecindent}{0pt}
+\renewcommand\cftsecafterpnum{\vskip5pt}
+\renewcommand\cftsubsecafterpnum{\vskip5pt}
+
+\begin{document}
+	\setlength{\parindent}{0pt}
+	\subfile{parts/general_info}
+	\setlength{\parindent}{10pt}
+	\tableofcontents
+	\title{Теоретическая механика, динамика машин\\Подготовка к вступительному экзамену в аспирантуру}
+	\author{Муравцев А.А.\thanks{email: almuravcev@yandex.ru}}
+	\maketitle
+	\subfile{parts/exam}
+\end{document}
