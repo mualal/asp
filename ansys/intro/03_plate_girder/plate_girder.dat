@@ -1,0 +1,67 @@
+/BATCH
+/FILNAME, plate_girder, 1
+/TITLE, plate_girder
+/PREP7
+/SHOW, plate_girder, grph
+ET, 1, LINK1
+R, 1, 1e-4
+MP, EX, 1, 2e11
+s3 = sqrt(3)
+N, 1, 0, 0
+N, 2, 2, 0
+N, 3, 4, 0
+N, 4, 6, 0
+N, 5, 4, 2/s3
+N, 6, 2, 4/s3
+N, 7, 0, 6/s3
+E, 1, 2
+E, 3, 4
+E, 4, 5
+E, 5, 6
+E, 6, 7
+E, 1, 7
+E, 1, 6
+E, 6, 2
+E, 2, 5
+E, 5, 3
+FINISH
+
+/SOLU
+ANTYPE, STATIC
+D, 1, UY, 0
+D, 1, UX, 0, , 7, 6
+F, 3, FY, -2e4
+F, 6, FX, 1e4
+SOLVE
+FINISH
+
+/POST1
+/NOPR
+SET, FIRST
+PLDISP, 1
+n_el = 11
+/OUTPUT, plate_girder, res
+PRRSOL
+PRESOL, SMISC, 1
+/OUTPUT
+
+/PNUM, NODE, 0
+/PBC, U, , 1
+/VSCALE, , 2, 1
+/PBC, F, , 1
+/PNUM, ELEM, 1
+EPLOT
+ETABLE, FI, SMISC, 1
+ETABLE, FJ, SMISC, 1
+PLLS, FI, FJ
+*DO, i, 1, n_el
+ESEL, S, ELEM, , i, i
+ETABLE, FORAX, SMISC, 1
+*GET, n, ELEM, i, ETAB, FORAX
+/GOPR
+*VWRITE, i, n
+(5X, 'i = ', F4.0, 5X, 'n = ', E10.4)
+/NOPR
+*ENDDO
+FINISH
+/EXIT
