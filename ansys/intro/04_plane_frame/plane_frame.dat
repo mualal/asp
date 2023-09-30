@@ -1,0 +1,74 @@
+/BATCH
+/FILNAME, plane_frame, 1
+/TITLE, plane_frame
+/PREP7
+/SHOW, plane_frame, grph
+ET, 1, BEAM3
+R, 1, 37.5, 3800, 24
+MP, EX, 1, 2e6
+a = 500
+b = 400
+c = 300
+n_fill = 16
+N, 1
+N, 2, , a
+N, 3, , a
+N, 3+n_fill, b, a
+N, 4+n_fill, b, a-c
+FILL, 3, 3+n_fill, n_fill-1
+E, 1, 2
+*DO, i, 3, 3+n_fill
+E, i, i+1
+*ENDDO
+CP, 1, UX, 2, 3
+CP, 2, UY, 2, 3
+FINISH
+
+/SOLU
+ANTYPE, STATIC
+D, 1, UY
+D, 1, UX
+D, 1, ROTZ
+D, 4+n_fill, UY
+D, 4+n_fill, UX
+*DO, i, 2, 1+n_fill
+SFBEAM, i, , pres, 40
+*ENDDO
+SOLVE
+SAVE
+FINISH
+
+/POST1
+SET, 1, 1
+ETABLE, MFORXI, SMISC, 1
+ETABLE, MFORXJ, SMISC, 7
+ETABLE, MFORYI, SMISC, 2
+ETABLE, MFORYJ, SMISC, 8
+ETABLE, MMOMZI, SMISC, 6
+ETABLE, MMOMZJ, SMISC, 12
+/OUTPUT, plane_frame, res
+PRRSOL
+PRETAB, MFORYI, MFORYJ
+PRETAB, MFORXI, MFORXJ
+PRETAB, MMOMZI, MMOMZJ
+/OUTPUT
+/PNUM, NODE, 1
+EPLOT
+/PBC, U, , 1
+/PBC, CP, , 1
+/PBC, F, , 1
+/PBC, M, , 1
+/PSF, PRES, NORM, 1
+/PNUM, ELEM, 1
+/PNUM, NODE, 0
+/NUMBER, 1
+/ZOOM, 1, SCRN, , , 1.7
+/PBC, ALL, , 0
+/PSF, PRES, NORM, 0
+/PNUM, ELEM, 0
+/TRIAD, OFF
+PLLS, MFORYI, MFORYJ, -2
+PLLS, MFORXI, MFORXJ, 2
+PLLS, MMOMZI, MMOMZJ, 2
+FINISH
+/EXIT

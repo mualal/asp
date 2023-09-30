@@ -1,0 +1,121 @@
+/BATCH
+/FILNAME, composed_construction, 1
+/TITLE, composed_construction
+*DIM, p1, , 1
+*DIM, p2, , 1
+*DIM, m, , 1
+*DIM, alfa, , 1
+*DIM, q, , 1
+p1(1) = 10.
+alfa(1) = 30.
+p2(1) = 20.
+m(1) = 40.
+q(1) = 20.
+pi = acos(-1)
+alf = alfa(1)*pi/180
+
+/PREP7
+/SHOW, composed_construction, grph
+/TITLE, reaction of comp.constr
+ET, 1, BEAM3
+KEYOPT, 1, 9, 5
+R, 1, 0.01, 8.3e-6, 0.1, , , , 
+MP, EX, 1, 2e8
+N, 1, -2, 4
+N, 2, 0, 6
+N, 3, -2, 0
+N, 4, 2, 0
+N, 5, 0, 2
+N, 6, 0, 2
+N, 7, 0, 2
+N, 8, -2, 1
+N, 9, 0, 5
+N, 10, 0, 4
+N, 11, -2, 2
+N, 12, 2, 2
+N, 13, 2, 1.6
+N, 14, 2, 1.2
+N, 15, 2, 0.8
+N, 16, 2, 0.4
+E, 4, 16
+E, 16, 15
+E, 15, 14
+E, 14, 13
+E, 13, 12
+E, 12, 7
+E, 3, 8
+E, 8, 11
+E, 11, 6
+E, 1, 10
+E, 10, 5
+E, 10, 9
+E, 9, 2
+FINISH
+
+/SOLU
+ANTYPE, STATIC
+D, 1, UX
+D, 1, UY
+D, 2, ROTZ
+D, 3, UX
+D, 4, UX
+CP, 1, UY, 5, 6, 7
+CP, 2, ROTZ, 5, 6, 7
+F, 8, FX, p1(1)*sin(alf)
+F, 8, FY, -p1(1)*cos(alf)
+F, 9, FX, p2(1)
+F, 10, MZ, m(1)
+*DO, i, 1, 5
+SFBEAM, i, 1, PRES, -q(1)
+*ENDDO
+SFBEAM, 9, 1, PRES, 0, 60
+SOLVE
+SAVE
+FINISH
+
+/POST1
+SET, 1, 1
+/OUTPUT, composed_construction, res
+PRRSOL
+/PBC, U, , 1
+/VSCALE, , 2, 1
+/PBC, F, , 1
+/PBC, CP, , 1
+/PBC, M, , 1
+/PSF, PRES, NORM, 1
+/PNUM, NODE, 1
+EPLOT
+/PNUM, ELEM, 1
+/NUMBER, 1
+/PBC, ALL, , 0
+/PSF, PRES, NORM, 0
+/PNUM, ELEM, 0
+/TRIAD, OFF
+PLDISP, 1
+ETABLE, MFORXI, SMISC, 1
+ETABLE, MFORXIL1, SMISC, 7
+ETABLE, MFORXIL2, SMISC, 13
+ETABLE, MFORXIL3, SMISC, 19
+ETABLE, MFORXIL4, SMISC, 25
+ETABLE, MFORXIL5, SMISC, 31
+ETABLE, MFORXJ, SMISC, 37
+ETABLE, MFORYI, SMISC, 2
+ETABLE, MFORYIL1, SMISC, 8
+ETABLE, MFORYIL2, SMISC, 14
+ETABLE, MFORYIL3, SMISC, 20
+ETABLE, MFORYIL4, SMISC, 26
+ETABLE, MFORYIL5, SMISC, 32
+ETABLE, MFORYJ, SMISC, 38
+ETABLE, MMOMZI, SMISC, 6
+ETABLE, MMOMZIL1, SMISC, 12
+ETABLE, MMOMZIL2, SMISC, 18
+ETABLE, MMOMZIL3, SMISC, 24
+ETABLE, MMOMZIL4, SMISC, 30
+ETABLE, MMOMZIL5, SMISC, 36
+ETABLE, MMOMZJ, SMISC, 42
+PLLS, MFORYI, MFORYJ, -2
+PLLS, MFORXI, MFORXJ, 2
+PLLS, MMOMZI, MMOMZJ, 2
+PARSAV, ALL
+FINISH
+/EXIT
