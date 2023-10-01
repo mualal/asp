@@ -1,0 +1,71 @@
+/BATCH
+/FILNAME, curved_bar_2, 1
+/TITLE, curved_bar_2
+/SHOW, curved_bar_2, grph
+/PREP7
+dr = 2
+ar = 20
+ET, 1, PIPE18
+R, 1, dr, dr/2, ar
+MP, EX, 1, 2e6
+MP, NUXY, .3
+n_fill = 20
+CSYS, 1
+N, 1
+N, 2, ar, 180
+N, 2+n_fill, ar, 90
+FILL, 2, 2+n_fill, n_fill-1
+N, 2+n_fill*2, ar
+FILL, 2+n_fill, 2+n_fill*2, n_fill-1
+CSYS, 0
+*DO, i, 2, 1+n_fill*2
+E, i, i+1, 1
+*ENDDO
+FINISH
+
+/SOLU
+ANTYPE, STATIC
+D, ALL, UZ, 0
+D, 2, UX, 0
+D, 2, UY, 0
+D, 2+n_fill*2, UX, 0
+D, 2+n_fill*2, UY, 0
+F, 2+n_fill, FY, -100
+F, 2+n_fill, FX, 150
+SOLVE
+FINISH
+
+/POST1
+SET, 1, 1
+ETABLE, MFORXI, SMISC, 1
+ETABLE, MFORXJ, SMISC, 7
+ETABLE, MFORYI, SMISC, 3
+ETABLE, MFORYJ, SMISC, 9
+ETABLE, MMOMZI, SMISC, 5
+ETABLE, MMOMZJ, SMISC, 11
+/OUTPUT, curved_bar_2, res
+PRRSOL
+PRETAB, MFORYI, MFORYJ
+PRETAB, MFORXI, MFORXJ
+PRETAB, MMOMZI, MMOMZJ
+/OUTPUT
+/PNUM, NODE, 1
+PLDISP, 1
+EPLOT
+/PBC, U, , 1
+/PBC, F, , 1
+/PBC, M, , 1
+/PSF, PRES, NORM, 1
+/PNUM, ELEM, 1
+/PNUM, NODE, 0
+/NUMBER, 1
+/ZOOM, 1, SCRN, , , 1.7
+/PBC, ALL, , 0
+/PSF, PRES, NORM, 0
+/PNUM, ELEM, 0
+/TRIAD, OFF
+PLLS, MFORYI, MFORYJ, 2
+PLLS, MFORXI, MFORXJ, 2
+PLLS, MMOMZI, MMOMZJ, -2
+FINISH
+/EXIT
