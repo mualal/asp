@@ -1,0 +1,47 @@
+/BATCH
+/FILNAME, initial_stresses, 1
+/TITLE, initial_stresses
+/PREP7
+ANTYPE, STATIC
+ax = 100
+ay = 100
+delt1 = 0.06
+delt2 = 0.05
+area = 25
+MP, EX, 1, 2e6
+ET, 1, LINK1
+R, 1, area, delt1/(ay-delt1)
+R, 2, area, delt2/(ay-delt2)
+R, 3, area
+N, 1, ax
+N, 2, 2*ax
+N, 3, 3*ax
+N, 4, ax, -ay
+N, 5, 2*ax, -ay
+N, 6, 3*ax, -ay
+REAL, 1
+E, 1, 4
+REAL, 2
+E, 2, 5
+REAL, 3
+E, 3, 6
+D, ALL, UX, 0
+D, 1, UY, 0, , 3
+CE, 1, 0, 5, UY, 1, 4, UY, -2
+CE, 2, 0, 6, UY, 1, 4, UY, -3
+SAVE
+FINISH
+
+/SOLU
+SOLVE
+FINISH
+
+/POST1
+SET, 1, 1
+ETABLE, FORAX, SMISC, 1
+ETABLE, SIGAX, LS, 1
+/OUTPUT, initial_stresses, res
+PRETAB, FORAX, SIGAX
+/OUTPUT
+FINISH
+/EXIT

@@ -1,0 +1,45 @@
+/BATCH
+/FILNAME, temperature_stresses, 1
+/TITLE, temperature_stresses
+/PREP7
+ANTYPE, STATIC
+ax = 50
+ar1 = 20
+ar2 = 10
+MP, EX, 1, 0.8e6
+MP, ALPX, 1, 165e-7
+MP, EX, 2, 2e6
+MP, ALPX, 2, 125e-7
+ET, 1, LINK1
+R, 1, ar1
+R, 2, ar2
+N, 1, 0
+N, 2, ax
+N, 3, 3*ax
+MAT, 1
+REAL, 1
+E, 1, 2
+MAT, 2
+REAL, 2
+E, 2, 3
+D, 1, ALL, 0
+D, 3, UX, 0.05
+! TREF, 20
+BFUNIF, TEMP, 40
+! BF, ALL, TEMP, 40
+! BFE, ALL, TEMP, 1, 40
+FINISH
+
+/SOLU
+SOLVE
+FINISH
+
+/POST1
+SET, 1, 1
+ETABLE, FORAX, SMISC, 1
+ETABLE, SIGAX, LS, 1
+/OUTPUT, temperature_stresses, res
+PRETAB, FORAX, SIGAX
+/OUTPUT
+FINISH
+/EXIT
