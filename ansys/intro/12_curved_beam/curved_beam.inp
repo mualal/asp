@@ -1,0 +1,134 @@
+/BATCH
+/FILNAME, curved_beam, 1
+/TITLE, static_analysis_of_spatially_curved_beam
+/UNITS, SI
+/SHOW, curved_beam, grph
+exx = 2.0e11
+r_ext = .01
+r_int = r_ext*0.5
+*AFUN, DEG
+r_hex = r_int*cos(30)
+l_end = .05
+l_middle = .1
+bendrad = .02
+l_elem = .01
+div_lin = 2
+/PREP7
+ET, 1, SOLID45
+ET, 2, PLANE42
+MP, EX, 1, EXX
+CYL4, 0, 0, r_ext
+RPOLY, 6, , r_int
+ASBA, 1, 2
+K, 11
+K, 12, , , -l_end
+K, 13, , l_middle, -l_end
+K, 14, l_end, l_middle, -l_end
+L, 1, 3
+L, 11, 12
+L, 12, 13
+L, 13, 14
+L, 2, 6
+L, 2, 7
+L, 4, 9
+L, 4, 10
+LFILLT, 12, 13, bendrad
+/VIEW, , 1, 1, 1
+/ANGLE, , 90, XM
+/PNUM, LINE, 1
+LPLOT
+/PNUM, LINE, 0
+LSEL, S, LINE, , 11
+LSEL, A, LINE, , 15, 18
+ASBL, 3, ALL, , , KEEP
+CM, CROSSEC, AREA
+LSLA, S
+LESIZE, ALL, , , DIV_LIN
+TYPE, 2
+MSHAPE, 0, 2D
+MSHKEY, 1
+SAVE
+AMESH, ALL
+/TITLE, meshed cross section
+EPLOT
+TYPE, 1
+ESIZE, L_ELEM
+VDRAG, ALL, , , , , , 12, 19, 13, 20, 14
+/TYPE, , HIDP
+/TITLE, meshed curved beam
+EPLOT
+CMSEL, , CROSSEC
+ACLEAR, ALL
+ASEL, ALL
+FINISH
+
+/SOLU
+ANTYPE, STATIC
+/TITLE, curved beam - load step 1
+CMSEL, , CROSSEC
+LSEL, , EXT
+NSLL, , 1
+D, ALL, ALL
+LSEL, ALL
+/PBC, U, , 1
+/TITLE, boundary conditions on end of curved beam
+NPLOT
+VSEL, , LOC, X, bendrad, l_end
+ASEL, , EXT
+ASEL, R, LOC, Z, -l_end+r_hex
+NSLA, , 1
+NSEL, R, LOC, X, l_end-2*l_elem, l_end
+*GET, XMIN, NODE, , MNLOC, X
+p1 = 50/(r_int*(l_end-xmin))
+SF, ALL, PRES, p1
+ALLSEL
+/PSF, PRES, , 2
+/TITLE, boundary conditions on curved beam for load step
+NPLOT
+LSWRITE
+/TITLE, curved beam - load step 2
+secarea = 3.14*r_ext*r_ext-3*r_int*r_int
+p2 = 40/secarea
+ASEL, , LOC, X, l_end
+NSLA, , L
+SF, ALL, PRES, p2
+ALLSEL
+/TITLE, boundary conditions on curved beam for load step 2
+NPLOT
+LSWRITE
+SAVE
+LSSOLVE, 1, 2
+FINISH
+
+/POST1
+SET, 1
+PRRSOL
+/PBC, DEFA
+/PSF, DEFA
+/EDGE, , 1
+/TITLE, deformation of curved beam under transverse load
+PLDISP, 2
+/GSAVE, pldisp, gsav
+/PLOPTS, INFO, ON
+/PLOPTS, LEG1, OFF
+/ANGLE, , 120, YM, 1
+/TITLE, stress intensity contours caused by transverse load
+PLNSOL, S, INT
+/GSAVE, plnsol, gsav
+SET, 2
+PRRSOL
+/GRESUME, pldisp, gsav
+/TITLE, deformed curved beam caused by both loads
+PLDISP, 2
+/GRESUME, plnsol, gsav
+/TITLE, stress intensity contours caused by both loads
+PLNSOL, S, INT
+WPOF, , , -0.030
+/TYPE, 1, 5
+/CPLANE, 1
+/VIEW, 1, WP
+/DIST, 1, .01
+/TITLE, cross section of the beam under transverse and compressive loading
+PLNSOL, S, INT
+FINISH
+/EXIT, ALL
