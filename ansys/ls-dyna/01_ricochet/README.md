@@ -1,1 +1,1 @@
-<video src='https://github.com/mualal/asp/blob/main/ansys/ls-dyna/01_ricochet/ricochet.mp4' width=180/>
+<video src='https://mualal.github.io/asp/ansys/ls-dyna/01_ricochet/ricochet.mp4'>
