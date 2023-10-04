@@ -1,0 +1,181 @@
+/BATCH
+/FILNAME, ricochet, 1
+/TITLE, ricochet
+*AFUN, DEG
+Rp1 = 0.76/2
+Lp1 = 7.6
+xm1 = 6.0
+xm2 = 18.0
+xm3 = 24.0
+ym1 = 10.0
+zm1 = 0.64
+V0 = 1290.0e-4
+beta = 75.0
+space = 0.25
+
+/PREP7
+ET, 1, MESH200, 6
+ET, 2, SOLID164
+MP, EX, 1, 2.1
+MP, DENS, 1, 7.896
+MP, NUXY, 1, 0.284
+TB, PLAW, 1, , , 1
+TBDAT, 1, 1.0e-2
+TBDAT, 2, 2.1e+7
+TBDAT, 4, 40.0
+TBDAT, 5, 5.0
+TBDAT, 6, 0.8
+MP, EX, 2, 1.17
+MP, DENS, 2, 18.62
+MP, NUXY, 2, 0.22
+TB, PLAW, 2, , , 1
+TBDAT, 1, 1.79e-2
+TBDAT, 2, 0
+TBDAT, 4, 40.0
+TBDAT, 5, 5.0
+TBDAT, 6, 0.8
+CSYS, 0
+K, 1, , , -zm1
+K, 2, xm1, , -zm1
+K, 3, xm2, , -zm1
+K, 4, xm3, , -zm1
+K, 5, , ym1, -zm1
+K, 6, xm1, ym1, -zm1
+K, 7, xm2, ym1, -zm1
+K, 8, xm3, ym1, -zm1
+/PNUM, KP, 1
+/PNUM, LINE, 1
+/PNUM, AREA, 1
+/TRIAD, LTOP
+KPLOT
+space = 1/4
+L, 1, 2, 10, space
+L, 2, 3, 40
+L, 3, 4, 10, 1/space
+L, 5, 6, 10, space
+L, 6, 7, 40
+L, 7, 8, 10, 1/space
+L, 1, 5, 40
+L, 2, 6, 40
+L, 3, 7, 40
+L, 4, 8, 40
+LPLOT
+AL, 1, 8, 4, 7
+AL, 2, 9, 5, 8
+AL, 3, 10, 6, 9
+APLOT
+SAVE
+MAT, 1
+TYPE, 2
+TYPE, 2
+EXTOPT, ESIZE, 4
+EXTOPT, ACLEAR, 1
+VEXT, 1, 10, 1, , , zm1
+MSHK, 1
+MSHAPE, 0, 3D
+VMESH, ALL
+SAVE
+
+*GET, KP_1, KP, , NUM, MAX
+*GET, LI_1, LINE, , NUM, MAX
+*GET, AR_1, AREA, , NUM, MAX
+*GET, VL_1, VOLU, , NUM, MAX
+AL1 = -90.0
+AL2 = beta
+AL3 = 0.0
+X_0 = 0.0
+Y_0 = 0.0
+Z_0 = 1.2
+X_1 = 1
+Y_1 = 0
+Z_1 = 0
+X_2 = 0
+Y_2 = 1
+Z_2 = 0
+X_3 = 0
+Y_3 = 0
+Z_3 = -V0
+*DIM, B1, ARRAY, 3, 3, 1
+*VFILL, B1(1,1,1), DATA, COS(AL1)*COS(AL3)-COS(AL2)*SIN(AL1)*SIN(AL3), -COS(AL3)*SIN(AL1)-COS(AL1)*COS(AL2)*SIN(AL3), SIN(AL2)*sin(AL3)
+*VFILL, B1(1,2,1), DATA, COS(AL2)*COS(AL3)*SIN(AL1)+COS(AL1)*SIN(AL3), COS(AL1)*COS(AL2)*COS(AL3)-SIN(AL1)*SIN(AL3), -COS(AL3)*SIN(AL2)
+*VFILL, B1(1,3,1), DATA, SIN(AL1)*SIN(AL2), COS(AL1)*SIN(AL2), COS(AL2)
+*DIM, BL1, ARRAY, 3, 1, 1
+*DIM, CL1, ARRAY, 3, 1, 1
+*VFILL, BL1(1,1,1), DATA, X_0, Y_0, Z_0
+*DIM, BL2, ARRAY, 3, 1, 1
+*DIM, CL2, ARRAY, 3, 1, 1
+*VFILL, BL2(1,1,1), DATA, X_1, Y_1, Z_1
+*DIM, BL3, ARRAY, 3, 1, 1
+*DIM, CL3, ARRAY, 3, 1, 1
+*VFILL, BL3(1,1,1), DATA, X_2, Y_2, Z_2
+*DIM, BL4, ARRAY, 3, 1, 1
+*DIM, CL4, ARRAY, 3, 1, 1
+*VFILL, BL4(1,1,1), DATA, X_3, Y_3, Z_3
+*MOPER, CL1(1,1), B1(1,1), MULT, BL1(1,1)
+*MOPER, CL2(1,1), B1(1,1), MULT, BL2(1,1)
+*MOPER, CL3(1,1), B1(1,1), MULT, BL3(1,1)
+*MOPER, CL4(1,1), B1(1,1), MULT, BL4(1,1)
+P1 = CL1(1,1)+xm3/2
+P2 = CL1(2,1)+ym1/2
+P3 = CL1(3,1)
+P4 = CL1(1,1)+CL2(1,1)+xm3/2
+P5 = CL1(2,1)+CL2(2,1)+ym1/2
+P6=CL1(3,1)+CL2(3,1)
+P7=CL1(1,1)+CL3(1,1)+xm3/2
+P8=CL1(2,1)+CL3(2,1)+ym1/2
+P9=CL1(3,1)+CL3(3,1)
+WPLANE, 1, P1, P2, P3, P4, P5, P6, P7, P8, P9
+CSWPLA, 11, 1
+K, KP_1+1, , , Lp1+Rp1
+K, KP_1+2, , , Rp1
+K, KP_1+3, , ,
+K, KP_1+4, Rp1, 0, Rp1
+K, KP_1+5, Rp1, , Lp1+Rp1
+L, KP_1+1, KP_1+2, 30
+L, KP_1+2, KP_1+3, 6
+LARC, KP_1+3, KP_1+4, KP_1+2, Rp1
+L, KP_1+2, KP_1+4, 6
+L, KP_1+4, KP_1+5, 30
+L, KP_1+5, KP_1+1, 6
+AL, LI_1+2, LI_1+3, LI_1+4
+AL, LI_1+1, LI_1+4, LI_1+5, LI_1+6
+VROTAT, AR_1+1, AR_1+2, , , , , KP_1+1, KP_1+3, 360, 4
+TYPE, 1
+MAT, 2
+MSHK, 1
+MSHAPE, 0, 3D
+VMESH, VL_1+1, VL_1+12, 1
+CSYS, 0
+NSEL, S, LOC, X, 0
+D, ALL, UX
+NSEL, ALL
+NSEL, S, LOC, X, xm3
+D, ALL, UX
+NSEL, ALL
+NSEL, S, LOC, Y, 0
+D, ALL, UY
+NSEL, ALL
+NSEL, S, LOC, Y, ym1
+D, ALL, UY
+NSEL, ALL
+SAVE
+ESEL, S, MAT, , 2
+NSLE, S, ALL
+CM, BODY, NODE
+ESEL, ALL
+NSEL, ALL
+EDIV, BODY, CL4(1,1), CL4(2,1), CL4(3,1), , , , , 90, 90, 90
+EDPART, CREATE
+SAVE
+FINISH
+
+/SOLU
+TIME, 100
+EDHTIME, , 1.1
+EDOUT, glstat
+EDOUT, matsum
+EDOUT, rcforc
+EDOUT, rbdout
+EDWRITE, BOTH, ricochet, k
+SAVE
+FINISH
