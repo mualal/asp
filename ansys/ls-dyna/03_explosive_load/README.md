@@ -1,0 +1,1 @@
+![Визуализация](https://github.com/mualal/asp/blob/master/ansys/ls-dyna/03_explosive_load/explosive_load.png)
