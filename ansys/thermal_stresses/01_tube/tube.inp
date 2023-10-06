@@ -1,0 +1,66 @@
+/BATCH
+/FILNAME, tube, 1
+/TITLE, tube
+
+/PREP7
+D_tube = 63.5e-3
+t_tube = 5.6e-3
+t_insul = 10e-3
+t_liner = 1e-3
+T_water = 190
+T_air = 20
+H_water = 1700
+H_air = 12
+ET, 1, PLANE77
+KEYOPT, 1, 3, 1
+MPTEMP, 1, 0, 200, 400
+MPDATA, KXX, 1, 1, 36.573, 38.033, 35.564
+MPDATA, KXX, 2, 1, 10.886, 14.246, 17.545
+MPDATA, KXX, 3, 1, 0.045, 0.08, 0.15
+RECTNG, D_tube/2-t_tube, D_tube/2, 0, 0.002
+*GET, anum1, AREA, , NUM, MAX
+LSEL, S, LOC, X, D_tube/2-t_tube
+LGEN, 2, ALL, , , -t_liner
+LSEL, S, LOC, X, D_tube/2
+LGEN, 2, ALL, , , t_insul
+LSEL, ALL
+A, 6, 5, 4, 1
+anum2 = _RETURN
+A, 2, 3, 8, 7
+anum3 = _RETURN
+ASEL, S, , , anum1
+AATT, 1
+ASEL, S, , , anum2
+AATT, 2
+ASEL, S, , , anum3
+AATT, 3
+LSEL, S, LENGTH, , 0.002
+LESIZE, ALL, , , 2, 1
+LSEL, S, LENGTH, , t_liner
+LESIZE, ALL, , , 2, 1
+LSEL, S, LENGTH, , t_tube
+LESIZE, ALL, , , 6, 1
+LSEL, S, LENGTH, , t_insul
+LESIZE, ALL, , , 8, 1
+ALLSEL
+MSHKEY, 1
+AMESH, ALL
+FINISH
+
+/SOLU
+LSEL, S, LOC, X, D_tube/2-t_tube-t_liner
+SFL, ALL, CONV, H_water, , T_water
+LSEL, S, LOC, X, D_tube/2+t_insul
+SFL, ALL, CONV, H_air, , T_air
+ALLSEL
+SOLVE
+FINISH
+
+/POST1
+PLNSOL, TEMP
+/WAIT, 5
+PATH, path1, 2, 30, 20
+PPATH, 1, NODE(KX(5), KY(5), KZ(5))
+PPATH, 2, NODE(KX(8), KY(8), KZ(8))
+PDEF, , TEMP, , AVG
+PLPATH, TEMP
