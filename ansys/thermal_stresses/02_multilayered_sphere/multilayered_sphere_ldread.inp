@@ -1,0 +1,38 @@
+/BATCH
+/FILNAME, multilayered_sphere_ldread
+/TITLE, multilayered_sphere_ldread
+RESUME, multilayered_sphere, db
+
+/PREP7
+LSCLEAR, ALL
+ETCHG, TTS
+KEYOPT, 2, 1, 0
+KEYOPT, 2, 4, 0
+ESEL, S, TYPE, , 5
+NSLE
+EDELE, ALL
+NDELE, ALL
+ALLSEL
+DK, KP(0, 0, 0), UZ, 0
+DK, KP(0, 0, 0.125), UZ, 0
+LSEL, S, LOC, X, 0
+LSEL, A, LOC, Y, 0
+LSEL, R, LOC, Z, 0.125
+DL, ALL, , SYMM
+ASEL, S, LOC, X, 0
+ASEL, A, LOC, Y, 0
+DA, ALL, SYMM
+LDREAD, TEMP, , , , , multilayered_sphere, rth
+FINISH
+
+/SOLU
+SOLVE
+FINISH
+
+/POST1
+PLESOL, S, X, 0
+PLESOL, S, Y, 0
+PLESOL, S, Z, 0
+PLESOL, S, EQV, 0
+FINISH
+/EXIT, ALL
