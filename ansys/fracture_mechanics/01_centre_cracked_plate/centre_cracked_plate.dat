@@ -1,0 +1,188 @@
+/BATCH
+/FILNAME, centre_cracked_plate
+/TITLE, centre_cracked_plate
+*AFUN, DEG
+bic = 1.0
+hic = 3.0*bic
+tic = 0.1*bic
+lic = 0.2*bic
+zic = 0.0
+ric = 0.10*lic
+aic = 8*ric
+x1 = lic-aic/2
+x2 = lic-ric
+x3 = lic
+x4 = lic+ric
+x5 = lic+aic/2
+x6 = bic/2
+y1 = ric
+y2 = aic/2
+y3 = hic/2
+nic = 4
+n1 = NINT(x1/ric/2)
+n2 = NINT((x6-x5)/ric/2)
+n3 = NINT((y3-y2)/ric/4)
+eic = 2.105e11
+nuic = 0.3
+p0 = 1.0e8
+! 
+! 
+/PREP7
+ET, 1, MESH200, 7
+ET, 2, SOLID95
+MP, EX, 1, eic
+MP, PRXY, 1, nuic
+! 
+K, 1, 0, 0
+K, 2, x1, 0
+K, 3, x2, 0
+K, 4, x3, 0
+K, 5, x4, 0
+K, 6, x5, 0
+K, 7, x6, 0
+K, 8, x3, y1
+K, 9, 0, y2
+K, 10, x1, y2
+K, 11, x3, y2
+K, 12, x5, y2
+K, 13, x6, y2
+K, 14, 0, y3
+K, 15, x1, y3
+K, 16, x3, y3
+K, 17, x5, y3
+K, 18, x6, y3
+/PNUM, KP, 1
+/PNUM, LINE, 1
+/PNUM, AREA, 1
+/TRIAD, LTOP
+KPLOT
+! 
+L, 1, 2, n1
+L, 2, 3, 4, 1/2.5
+L, 3, 4
+L, 4, 5
+L, 5, 6, 4, 2.5
+L, 6, 7, n2
+LARC, 3, 8, 4, ric
+LESIZE, 7, , , nic
+L, 4, 8
+LARC, 8, 5, 4, ric
+LESIZE, 9, , , nic
+L, 1, 9, 2
+L, 2, 10, 2
+L, 8, 11, 4, 2.5
+L, 6, 12, 2
+L, 7, 13, 2
+L, 9, 10, n1
+L, 10, 11, 2
+L, 11, 12, 2
+L, 12, 13, n2
+L, 9, 14, n3
+L, 10, 15, n3
+L, 11, 16, n3
+L, 12, 17, n3
+L, 13, 18, n3
+L, 14, 15, n1
+L, 15, 16, 2
+L, 16, 17, 2
+L, 17, 18, n2
+LPLOT
+! 
+AL, 1, 11, 15, 10
+AL, 2, 7, 12, 16, 11
+AL, 3, 8, 7
+AL, 4, 9, 8
+AL, 5, 13, 17, 12, 9
+AL, 6, 14, 18, 13
+AL, 15, 20, 24, 19
+AL, 16, 21, 25, 20
+AL, 17, 22, 26, 21
+AL, 18, 23, 27, 22
+APLOT
+SAVE
+! 
+MAT, 1
+TYPE, 1
+delr = ric/4
+KSCON, 4, delr, 1, nic
+MSHAPE, 0, 2D
+MSHKEY, 0
+AMESH, 3, 4, 1
+NPLOT
+MSHKEY, 1
+AMAP, 2, 8, 11, 2, 3
+AMAP, 5, 5, 6, 11, 8
+AMESH, 1, 6, 5
+AMESH, 7, 10, 1
+SAVE
+! 
+nz = 8
+TYPE, 2
+EXTOPT, ESIZE, nz
+EXTOPT, ACLEAR, 1
+VEXT, 1, 10, 1, , , tic, 1, 1, 1
+NPLOT
+SAVE
+! 
+NSEL, S, LOC, Y, 0
+NSEL, R, LOC, X, x3, x6
+D, ALL, UY, 0
+NSEL, S, LOC, X, 0
+D, ALL, UX, 0
+NSEL, S, LOC, Z, 0
+D, ALL, UZ, 0
+ASEL, S, LOC, Y, hic/2
+SFA, ALL, 1, PRES, -p0
+/PSF, PRES, NORM, 2
+ALLSEL
+APLOT
+D, ALL, UZ, 0
+SAVE
+FINISH
+! 
+! 
+/SOLU
+ANTYPE, STATIC
+EQSLV, SPARSE
+SAVE
+SOLVE
+FINISH
+! 
+! 
+/POST1
+SET, LAST
+RSYS, 0
+PLNSOL, U, SUM
+PLNSOL, S, EQV
+! 
+ni = NODE(x3, 0, zic)
+nj = NODE(x2, 0, zic)
+nk = NODE(x1, 0, zic)
+PATH, ki, 3, , 48
+PPATH, 1, ni
+PPATH, 2, nj
+PPATH, 3, nk
+KCALC, 0, 1, 0
+*GET, KI1, KCALC, , K, 1
+*GET, KI2, KCALC, , K, 2
+*GET, KI3, KCALC, , K, 3
+! 
+nji = NODE(x5, 0, zic)
+njj = NODE(x5, y2, zic)
+njk = NODE(x1, y2, zic)
+njl = NODE(x1, 0, zic)
+j_f_1, nji, njj, njk, njl
+eic1 = eic/(1-(nuic*nuic))
+KI1J = SQRT(eic1*JINT)
+! 
+lr = 2*lic/bic
+yr = SQRT(lic)*(1.77+0.227*lr-0.51*(lr)**2+2.7*(lr)**3)
+pb = p0*bic*tic
+KI4 = pb*yr/tic/bic
+! 
+alfa = (x3/x6)
+pi = 3.1415926
+KI5 = p0*SQRT(pi*x3)*(1-0.025*alfa**2+0.06*alfa**4)*SQRT(1/COS(alfa*90))
+SAVE
+FINISH
+/EXIT, ALL
