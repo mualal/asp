@@ -1,0 +1,52 @@
+/BATCH
+/FILNAME, multilayered_sphere_physics
+/TITLE, multilayered_sphere_physics
+RESUME, multilayered_sphere, db
+!
+!
+/PREP7
+PHYSICS, WRITE, multilayered_sphere_thermal, multilayered_sphere_physics_thermal, ph1
+MPWRITE, multilayered_sphere, mat
+PHYSICS, CLEAR
+ETCHING, TTS
+KEYOPT, 2, 1, 0
+KEYOPT, 2, 4, 0
+MPREAD, multilayered_sphere, mat
+DK, KP(0, 0, 0), UZ, 0
+DK, KP(0, 0, 0.125), UZ, 0
+LSEL, S, LOC, X, 0
+LSEL, A, LOC, Y, 0
+LSEL, R, LOC, Z, 0.125
+DL, ALL, , SYMM
+ASEL, S, LOC, X, 0
+ASEL, A, LOC, Y, 0
+DA, ALL, SYMM
+PHYSICS, WRITE, multilayered_sphere_structural, multilayered_sphere_physics_structural, ph2
+SAVE
+FINISH
+!
+!
+/SOLU
+PHYSICS, READ, multilayered_sphere_thermal
+SOLVE
+FINISH
+!
+!
+/PREP7
+PHYSICS, READ, multilayered_sphere_structural
+LDREAD, TEMP, , , , , multilayered_sphere_physics, rth
+FINISH
+!
+!
+/SOLU
+SOLVE
+FINISH
+!
+!
+/POST1
+ESEL, U, TYPE, , 5
+PLESOL, S, X, 0
+PLESOL, S, Y, 0
+PLESOL, S, Z, 0
+PLESOL, S, EQV, 0
+FINISH
