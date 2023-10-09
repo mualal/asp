@@ -1,0 +1,75 @@
+/BATCH
+/FILNAME, multilayered_sphere_bfint
+/TITLE, multilayered_sphere_bfint
+RESUME, multilayered_sphere, db
+!
+!
+/PREP7
+LSCLEAR, ALL
+ETCHG, TTS
+KEYOPT, 2, 1, 0
+KEYOPT, 2, 4, 0
+ESEL, S, TYPE, , 5
+NSLE
+EDELE, ALL
+NDELE, ALL
+ESEL, S, MAT, , 1
+ESEL, R, TYPE, , 1
+NSLE
+NWRITE, multilayered_sphere_bfint_uran, nd
+ESEL, S, MAT, , 2
+NSLE
+NWRITE, multilayered_sphere_bfint_graphite, nd
+ESEL, S, MAT, , 3
+NSLE
+NWRITE, multilayered_sphere_bfint_steel, nd
+ALLSEL
+SAVE
+!
+RESUME, multilayered_sphere, db
+FINISH
+!
+!
+/POST1
+FILE, multilayered_sphere, rth
+ESEL, S, MAT, , 1
+ESEL, R, TYPE, , 1
+NSLE
+BFINT, multilayered_sphere_bfint_uran, nd, , multilayered_sphere_bfint_uran, bfin
+ESEL, S, MAT, , 2
+NSLE
+BFINT, multilayered_sphere_bfint_graphite, nd, , multilayered_sphere_bfint_graphite, bfin
+ESEL, S, MAT, , 3
+NSLE, S
+BFINT, multilayered_sphere_bfint_steel, nd, , multilayered_sphere_bfint_steel, bfin
+RESUME, multilayered_sphere_bfint, db
+FINISH
+!
+!
+/PREP7
+/INPUT, multilayered_sphere_bfint_uran, bfin
+/INPUT, multilayered_sphere_bfint_graphite, bfin
+/INPUT, multilayered_sphere_bfint_steel, bfin
+DK, KP(0, 0, 0), UZ, 0
+DK, KP(0, 0, 0.125), UZ, 0
+LSEL, S, LOC, X, 0
+LSEL, A, LOC, Y, 0
+LSEL, R, LOC, Z, 0.125
+DL, ALL, , SYMM
+ASEL, S, LOC, X, 0
+ASEL, A, LOC, Y, 0
+DA, ALL, SYMM
+FINISH
+!
+!
+/SOLU
+SOLVE
+FINISH
+!
+!
+/POST1
+PLESOL, S, X, 0
+PLESOL, S, Y, 0
+PLESOL, S, Z, 0
+PLESOL, S, EQV, 0
+FINISH
