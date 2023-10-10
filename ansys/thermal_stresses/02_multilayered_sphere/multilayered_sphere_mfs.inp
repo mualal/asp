@@ -1,0 +1,85 @@
+/BATCH
+/FILNAME, multilayered_sphere_mfs
+/TITLE, multilayered_sphere_mfs
+RESUME, multilayered_sphere, db
+!
+!
+/PREP7
+LSCLEAR, ALL
+ETCHG, TTS
+ACLEAR, a1
+KEYOPT, 2, 1, 0
+KEYOPT, 2, 4, 0
+ESEL, S, TYPE, , 5
+NSLE
+EDELE, ALL
+NDELE, ALL
+ETDELE, 4, 5
+ALLSEL
+DK, KP(0, 0, 0), UZ, 0
+ASEL, S, LOC, X, 0
+ASEL, A, LOC, Y, 0
+DA, ALL, SYMM
+SBCTRAN
+ESEL, S, MAT, , 1
+ESEL, R, TYPE, , 1
+BFE, ALL, FVIN, , 1
+ESEL, S, MAT, , 2
+BFE, ALL, FVIN, , 2
+ESEL, S, MAT, , 3
+ESEL, R, TYPE, , 1
+BFE, ALL, FVIN, , 3
+ALLSEL
+CDWRITE, DB, multilayered_sphere_mfs_structural, cdb
+!
+RESUME, multilayered_sphere, db
+ESEL, S, TYPE, , 5
+NSLE
+EDELE, ALL
+NDELE, ALL
+ETDELE, 5
+ESEL, S, MAT, , 1
+ESEL, R, TYPE, , 1
+BFE, ALL, FVIN, , 1
+ESEL, S, MAT, , 2
+BFE, ALL, FVIN, , 2
+ESEL, S, MAT, , 3
+ESEL, R, TYPE, , 1
+BFE, ALL, FVIN, , 3
+ALLSEL
+MFANALYSIS, ON, MFSC
+MFIMPORT, 2, DB, multilayered_sphere_mfs_structural, cdb
+RSYMM, CLEAR
+RSYMM, DEFINE, 0, x
+RSYMM, DEFINE, 0, y
+RSURF, , , 10
+MFELEM, 1, 6, 7, 8, 9, 10
+MFCMMAND, 1
+MFCMMAND, 2
+MFINTER, NONC
+MFBUCKET, ON, 50
+MFORDER, 1, 2
+MFVOLUME, 1, 1, TEMP, 2
+MFVOLUME, 2, 1, TEMP, 2
+MFVOLUME, 3, 1, TEMP, 2
+MFITER, 10, 1, 5
+MFCONV, TEMP, 0.001
+FINISH
+!
+!
+/SOLU
+SOLVE
+FINISH
+!
+!
+/POST1
+FILE, field1, rth
+SET, LAST
+PLNSOL, TEMP
+FILE, field2, rst
+SET, LAST
+PLESOL, S, X, 0
+PLESOL, S, Y, 0
+PLESOL, S, Z, 0
+PLESOL, S, EQV, 0
+FINISH
