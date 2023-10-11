@@ -1,0 +1,79 @@
+/BATCH
+/FILNAME, resonator_thermoelastic_damping
+/TITLE, resonator_thermoelastic_damping
+!
+!
+/PREP7
+TOFFST, 273
+ET, 1, SOLID227, 11
+KEYOPT, 1, 9, 0
+MP, EX, 1, 1.3E5
+MP, PRXY, 1, 0.28
+MP, DENS, 1, 2330E-18
+MP, ALPX, 1, 7.8E-6
+MP, REFT, 1, 20
+MP, KXX, 1, 90E6
+MP, C, 1, 699E12
+K, 1, 0, 1, 0
+K, 2, 10, 1, 0
+K, 3, 10, 3, 0
+L, 1, 2
+l1 = _RETURN
+L, 2, 3
+l2 = _RETURN
+LFILLT, l1, l2, 1
+K, 2, 15, 3, 0
+L, 3, 2
+LSYMM, Y, ALL
+A,KP(0,1,0),KP(9,1,0),KP(10,2,0),KP(10,3,0),KP(15,3,0),KP(15,-3,0),KP(10,-3,0),KP(10,-2,0),KP(9,-1,0),KP(0,-1,0)
+ARSYM, X, ALL
+AGLUE, ALL
+VEXT, ALL, , , , , 4
+ESIZE, 0.8
+VMESH, ALL
+ASEL, S, LOC, Y, 3
+ASEL, A, LOC, Y, -3
+DA, ALL, UX, 0
+DA, ALL, UY, 0
+DA, ALL, UZ, 0
+ALLSEL
+TUNIF, 20
+ACEL, , 25E12
+FINISH
+!
+!
+/SOLU
+ANTYPE, 3
+HROPT, FULL
+HROUT, ON
+OUTRES, ALL, ALL
+EQSLV, SPARSE
+HARFRQ, 0, 150E6
+NSUBST, 30
+KBC, 1
+SOLVE
+FINISH
+!
+!
+/POST1
+*DIM, Q, TABLE, 30, 2
+*DO, i, 1, 30, 1
+SET, , , , 0, i*5E6
+ETAB, w_r, NMISC, 4
+SET, , , , 1, i*5E6
+ETAB, w_i, NMISC, 4
+SSUM
+*GET, Wr, SSUM, , ITEM, w_r
+*GET, WI, SSUM, , ITEM, w_i
+Q(i,1) = i*5E6
+Q(i,2) = Wi/Wr
+*ENDDO
+*VPLOT, Q(1,1), Q(1,2)
+!
+/VIEW, 1, 1, -2, -2
+/AUTO, 1
+SET, , , , 0, 25E6
+PLNSOL, U, SUM
+SET, , , , 0, 15E7
+PLNSOL, U, SUM
+FINISH
