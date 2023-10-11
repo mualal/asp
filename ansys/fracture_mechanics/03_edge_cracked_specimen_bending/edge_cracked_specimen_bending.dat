@@ -1,0 +1,253 @@
+/BATCH
+/FILNAME, edge_cracked_specimen_bending, 1
+/TITLE, edge_cracked_specimen_bending
+*AFUN, DEG
+bic = 1.0
+hic = 4.5*bic
+hic1 = 4.0*bic
+tic = 0.2*bic
+lic = 0.5*bic
+zic = 0.5*tic
+ric = 0.05*lic
+aic = 8*ric
+fic1 = 0.1*bic
+fic2 = 1*ric
+nic = 4
+x1 = lic-aic/2
+x2 = lic-ric
+x3 = lic
+x4 = lic+ric
+x5 = lic+aic/2
+x6 = bic
+y1 = ric
+y2 = aic/2
+y3 = hic1/2-fic1/2
+y4 = hic1/2+fic1/2
+y5 = hic/2
+alpha = 0
+n1 = NINT(x1/ric/2)
+n2 = NINT((x6-x5)/ric/2)
+n3 = NINT((y3-y2)/ric/4)
+n4 = NINT((y4-y3)/ric/4)
+n5 = NINT((y5-y4)/ric/4)
+eic = 2.105e11
+nuic = 0.3
+p0 = 1.0e8
+LOCAL, 11, 1, x3, 0.0, 0.0, 0.0
+LOCAL, 12, 0, x3, 0.0, 0.0, 0.0
+CSYS, 0
+! 
+! 
+/PREP7
+ET, 1, MESH200, 7
+ET, 2, SOLID95
+ET, 3, MASS21, , ,
+R, 1
+R, 2, 1E-3, 1E-3, 1E-3, 1E-3, 1E-3, 1E-3
+MP, EX, 1, eic
+MP, NUXY, 1, nuic
+!
+K, 1, 0.0, 0.0
+K, 2, x1, 0.0
+K, 3, x2, 0.0
+K, 4, x3, 0.0
+K, 5, x4, 0.0
+K, 6, x5, 0.0
+K, 7, x6, 0.0
+K, 8, x3, y1
+K, 9, 0.0, y2
+K, 10, x1, y2
+K, 11, x3, y2
+K, 12, x5, y2
+K, 13, x6, y2
+K, 14, 0.0, y3
+K, 15, x1, y3
+K, 16, x3, y3
+K, 17, x5, y3
+K, 18, x6, y3
+K, 19, 0.0, y4
+K, 20, x1, y4
+K, 21, x3, y4
+K, 22, x5, y4
+K, 23, x6, y4
+K, 24, 0.0, y5
+K, 25, x1, y5
+K, 26, x3, y5
+K, 27, x5, y5
+K, 28, x6, y5
+/PNUM, KP, 1
+/PNUM, LINE, 1
+/PNUM, AREA, 1
+/TRIAD, LTOP
+KPLOT
+!
+L, 1, 2, n1
+L, 2, 3, 4, 1/2.5
+L, 3, 4
+L, 4, 5
+L, 5, 6, 4, 2.5
+L, 6, 7, n2
+LARC, 3, 8, 4, ric
+LESIZE, 7, , , nic
+L, 4, 8
+LARC, 8, 5, 4, ric
+LESIZE, 9, , , nic
+L, 1, 9, 2
+L, 2, 10, 2
+L, 8, 11, 4, 2.5
+L, 6, 12, 2
+L, 7, 13, 2
+L, 9, 10, n1
+L, 10, 11, 2
+L, 11, 12, 2
+L, 12, 13, n2
+L, 9, 14, n3
+L, 10, 15, n3
+L, 11, 16, n3
+L, 12, 17, n3
+L, 13, 18, n3
+L, 14, 15, n1
+L, 15, 16, 2
+L, 16, 17, 2
+L, 17, 18, n2
+L, 14, 19, n4
+L, 15, 20, n4
+L, 16, 21, n4
+L, 17, 22, n4
+L, 18, 23, n4
+L, 19, 20, n1
+L, 20, 21, 2
+L, 21, 22, 2
+L, 22, 23, n2
+L, 19, 24, n5
+L, 20, 25, n5
+L, 21, 26, n5
+L, 22, 27, n5
+L, 23, 28, n5
+L, 24, 25, n1
+L, 25, 26, 2
+L, 26, 27, 2
+L, 27, 28, n2
+LPLOT
+!
+AL, 1, 11, 15, 10
+AL, 2, 7, 12, 16, 11
+AL, 3, 8, 7
+AL, 4, 9, 8
+AL, 5, 13, 17, 12, 9
+AL, 6, 14, 18, 13
+AL, 15, 20, 24, 19
+AL, 16, 21, 25, 20
+AL, 17, 22, 26, 21
+AL, 18, 23, 27, 22
+AL, 24, 29, 33, 28
+AL, 25, 30, 34, 29
+AL, 26, 31, 35, 30
+AL, 27, 32, 36, 31
+AL, 33, 38, 42, 37
+AL, 34, 39, 43, 38
+AL, 35, 40, 44, 39
+AL, 36, 41, 45, 40
+APLOT
+SAVE
+!
+TYPE, 1
+MAT, 1
+MSHAPE, 0, 2D
+MSHKEY, 0
+delr = ric/4
+KSCON, 4, delr, 1, nic
+AMESH, 3, 4, 1
+MSHKEY, 1
+AMAP, 2, 8, 11, 2, 3
+AMAP, 5, 5, 6, 11, 8
+AMESH, 1, 6, 5
+AMESH, 7, 18, 1
+SAVE
+!
+nz = 8
+TYPE, 2
+EXTOPT, ACLEAR, 1
+EXTOPT, ESIZE, nz
+VEXT, 1, 18, 1, , , tic, 1, 1, 1
+SAVE
+!
+CSYS, 0
+*GET, NOD_1, NODE, , NUM, MAX
+nrig1 = NOD_1+1
+N, nrig1, 0.0, hic1/2, tic/2
+TYPE, 3
+REAL, 2
+E, nrig1
+NSEL, S, NODE, , nrig1
+DOF, ROTX, ROTY, ROTZ
+ALLSEL
+NSEL, S, LOC, X, 0
+NSEL, R, LOC, Y, y3, y4
+NSEL, A, NODE, , nrig1
+CM, rigid, NODE
+CERIG, nrig1, ALL, UX, UY, 
+ALLSEL
+!
+CSYS, 0
+NSEL, S, LOC, Y, 0.0
+NSEL, R, LOC, X, x3, x6
+D, ALL, UY, 0.0
+ALLSEL
+NSEL, S, LOC, Z, 0.0
+D, ALL, UZ, 0.0
+ALLSEL
+D, nrig1, UX, 0.0, , , , UZ, , 
+ASEL, S, , , 41
+SFA, ALL, 1, PRES, p0
+ALLSEL
+D, ALL, UZ, 0.0
+SAVE
+FINISH
+!
+!
+/SOLU
+ANTYPE, STATIC
+EQSLV, SPARSE
+SAVE
+SOLVE
+FINISH
+!
+!
+/POST1
+SET, LAST
+CSYS, 0
+ni = NODE(x3, 0.0, zic)
+nj = NODE(x2, 0.0, zic)
+nk = NODE(x1, 0.0, zic)
+PATH, ki, 3, , 48
+PPATH, 1, ni
+PPATH, 2, nj
+PPATH, 3, nk
+KCALC, 0, 1, 0
+*GET, KI1, KCALC, , K, 1
+*GET, KI2, KCALC, , K, 2
+*GET, KI3, KCALC, , K, 3
+!
+nji = NODE(x5, 0.0, zic)
+njj = NODE(x5, y1, zic)
+njk = NODE(x1, y1, zic)
+njl = NODE(x1, 0.0, zic)
+eic1 = eic/(1-(nuic*nuic))
+j_f_1, nji, njj, njk, njl
+KI1J = SQRT(eic1*JINT)
+!
+alfa = x3/x6
+pi = 3.1415926
+yr = SQRT(alfa/(1-alfa)**3)*3.494*(1.0-3.396*alfa+5.839*alfa**2)
+pb = 2*(p0*tic*aic)
+KI6 = (pb*x6)*yr/tic/SQRT(x6)
+!
+lr = x3/x6
+yr = 6*SQRT(lr)
+yr = yr*(1.93-3.07*lr+14.53*(lr**2)-25.11*(lr**3)+25.8*(lr**4))
+KI4 = pb*yr/(2*tic)/SQRT(x6)
+/DSCALE, 1, 100
+PLNSOL, U, SUM
+PLNSOL, S, EQV
+FINISH
