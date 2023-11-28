@@ -27,6 +27,10 @@ left=20mm,
 top=20mm,
 }
 
+\usepackage{titlesec}
+\newcommand{\subsectionbreak}{\clearpage}
+\newcommand{\subsubsectionbreak}{\clearpage}
+
 \usepackage{systeme}
 \usepackage{skak}
 \usepackage{mathtools}
@@ -63,7 +67,10 @@ top=20mm,
 \usepackage{float}
 \floatstyle{plaintop}
 \usepackage{enumitem}
-\setlength{\parindent}{0pt}
+\usepackage{indentfirst}
+\setlength{\parindent}{25pt}
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep}
 %\setcounter{section}{-1}
 
 \graphicspath{{./img/}}
@@ -72,29 +79,28 @@ top=20mm,
 \newcommand{\beq}{\begin{equation}}
 \newcommand{\eeq}{\end{equation}}
 
-\newenvironment{eclrun}
-{\VerbatimEnvironment
-\begin{tcolorbox}[breakable,boxrule=0.5pt,colframe=gray!50]
-\begin{Verbatim}
-}
-{
-\end{Verbatim}	
-\end{tcolorbox}
-}
-
+\newenvironment{nohyphen}
+  {\tolerance=1
+   \emergencystretch=\maxdimen
+   \hyphenpenalty=10000
+   \hbadness=10000}
+  {\par}
+  
 \begin{document}
 	\subfile{parts/general_info}
 	\tableofcontents
 	\title{История и философия науки\\Конспект лекций}
 	\author{Муравцев А.А.\thanks{конспектирует; email: almuravcev@yandex.ru}
 	\and
-	Шипунова О.Д.\thanks{лектор}
+	Шипунова О.Д.\thanks{лектор. Аудиозаписи лекций \href{https://drive.google.com/drive/folders/1iSx2EjJJ98rhPpOsM4xGcJA7-7qitQHM?usp=sharing}{доступны по ссылке}.}
 	}
 	\maketitle
-	\newpage
+	\begin{nohyphen}
 	\subfile{parts/2023_11_09}
 	\newpage
 	\subfile{parts/2023_11_16}
-	
+	\newpage
+	\subfile{parts/2023_11_23}
+	\end{nohyphen}
 	
 \end{document}
