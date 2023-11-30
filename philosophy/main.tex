@@ -85,7 +85,9 @@ top=20mm,
    \hyphenpenalty=10000
    \hbadness=10000}
   {\par}
-  
+
+\newcommand{\insertlectureslide}[2]{{\parindent0pt\includegraphics[width=\textwidth, page=#1]{lecture#2.pdf}}\newpage}
+
 \begin{document}
 	\subfile{parts/general_info}
 	\tableofcontents
@@ -101,6 +103,8 @@ top=20mm,
 	\subfile{parts/2023_11_16}
 	\newpage
 	\subfile{parts/2023_11_23}
+	\newpage
+	\subfile{parts/2023_11_30}
 	\end{nohyphen}
 	
 \end{document}
