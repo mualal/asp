@@ -88,6 +88,12 @@ top=20mm,
 
 \newcommand{\insertlectureslide}[3][1]{{\parindent0pt\includegraphics[width=\textwidth, page=#2]{lecture#3.pdf}}\ifnum#1=1 \newpage \else \fi}
 
+\newcommand{\linksection}[1]{\section{\protect\hyperlink{sec:\thesection}{#1}}
+\addtocontents{toc}{\protect\hypertarget{sec:\thesection}{}}}
+
+\newcommand{\sublinksection}[1]{\subsection{\protect\hyperlink{subsec:\thesubsection}{#1}}
+\addtocontents{toc}{\penalty0\protect\hypertarget{subsec:\thesubsection}{}}}
+
 \begin{document}
 	\subfile{parts/general_info}
 	\tableofcontents
