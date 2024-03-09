@@ -89,6 +89,12 @@ top=20mm,
    \hbadness=10000}
   {\par}
 
+\newcommand{\linksection}[1]{\section{\protect\hyperlink{sec:\thesection}{#1}}
+\addtocontents{toc}{\protect\hypertarget{sec:\thesection}{}}}
+
+\newcommand{\sublinksection}[1]{\subsection{\protect\hyperlink{subsec:\thesubsection}{#1}}
+\addtocontents{toc}{\protect\hypertarget{subsec:\thesubsection}{}\penalty0}}
+
 \begin{document}
 	\subfile{parts/general_info}
 	\tableofcontents
