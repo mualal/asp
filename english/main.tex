@@ -54,10 +54,19 @@ top=20mm,
 \DeclareRobustCommand\notselectableinacrobat[1]{%
     \BeginAccSupp{method=plain,ActualText={}}#1\EndAccSupp{}}
 
+\makeatletter
+\newcommand{\pagetarget}[2]% #1=label (both hypertarget and label), #2=text
+{\hypertarget{#1}{#2}\protected@write\@auxout{}{%
+   \string\newlabel{#1}{{#2}{\thepage}{page.\thepage}{#1}{}}}}
+\makeatother
+
+\newcommand{\pagelink}[2]% #1=label, #2=text
+{\hyperlink{\getrefbykeydefault{#1}{name}{Doc-Start}}{#2}}
+
 \fancypagestyle{plain}{%
 	\fancyhf{}%
-	\fancyhead[L]{\phantom{}\notselectableinacrobat{\hyperlink{sec:\thesection}{\leftmark}}}%
-	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{page.1}{\textcolor{violet}{Вернуться к содержанию}}}}%
+	\fancyhead[L]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\leftmark}}}%
+	\fancyhead[R]{\phantom{}\notselectableinacrobat{\pagelink{subsec:\thesubsection}{\textcolor{violet}{Вернуться к содержанию}}}}%
 	%\fancyhead[L]{\leftmark \\ \rightmark}
 	%\fancyhead[R]{\thepage}
 	%\fancyhead[R]{\rightmark}
@@ -89,11 +98,16 @@ top=20mm,
    \hbadness=10000}
   {\par}
 
-\newcommand{\linksection}[1]{\section{\protect\hyperlink{sec:\thesection}{#1}}
-\addtocontents{toc}{\protect\hypertarget{sec:\thesection}{}}}
+\let\oldcontentsline\contentsline%
+\renewcommand\contentsline[4]{%
+\hypertarget{toc#4}{}%
+\oldcontentsline{#1}{#2}{#3}{#4}}
 
-\newcommand{\sublinksection}[1]{\subsection{\protect\hyperlink{subsec:\thesubsection}{#1}}
-\addtocontents{toc}{\protect\hypertarget{subsec:\thesubsection}{}\penalty0}}
+\newcommand{\linksection}[1]{\section{\protect\hyperlink{tocsection.\thesection}{#1}}
+\addtocontents{toc}{\protect\pagetarget{sec:\thesection}{}}}
+
+\newcommand{\sublinksection}[1]{\subsection{\protect\hyperlink{tocsubsection.\thesubsection}{#1}}
+\addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection}{}\penalty0}}
 
 \begin{document}
 	\subfile{parts/general_info}
