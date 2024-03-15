@@ -63,14 +63,18 @@ top=20mm,
 \newcommand{\pagelink}[2]% #1=label, #2=text
 {\hyperlink{\getrefbykeydefault{#1}{name}{Doc-Start}}{#2}}
 
+\usepackage{eso-pic, rotating, graphicx}
+\definecolor{mygray}{gray}{0.6}
+\definecolor{mygray2}{gray}{0.45}
+
 \fancypagestyle{plain}{%
 	\fancyhf{}%
-	\fancyhead[L]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\leftmark}}}%
-	\fancyhead[R]{\phantom{}\notselectableinacrobat{\pagelink{subsec:\thesubsection}{\textcolor{violet}{Вернуться к содержанию}}}}%
+	\fancyhead[L]{\phantom{}\notselectableinacrobat{\pagelink{doc:\thesection}{\leftmark}}}%
+	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\small\textcolor{mygray2}{Вернуться к содержанию}}}}%
 	%\fancyhead[L]{\leftmark \\ \rightmark}
 	%\fancyhead[R]{\thepage}
 	%\fancyhead[R]{\rightmark}
-	\fancyfoot[C]{\phantom{}\notselectableinacrobat{\thepage}}
+	\fancyfoot[C]{\phantom{}\notselectableinacrobat{\hyperlink{tocsubsection.\thesubsection}{\thepage}}}
 	%\fancyfoot[L]{\rightmark}
 }
 \pagestyle{plain}
@@ -103,11 +107,13 @@ top=20mm,
 \hypertarget{toc#4}{}%
 \oldcontentsline{#1}{#2}{#3}{#4}}
 
-\newcommand{\linksection}[1]{\section{\protect\hyperlink{tocsection.\thesection}{#1}}
+\newcommand{\linksection}[2][\DefaultOpt]{\def\DefaultOpt{#2}\section[#1]{\protect\hyperlink{tocsection.\thesection}{#2}\pagetarget{doc:\thesection}}
 \addtocontents{toc}{\protect\pagetarget{sec:\thesection}{}}}
 
-\newcommand{\sublinksection}[1]{\subsection{\protect\hyperlink{tocsubsection.\thesubsection}{#1}}
+\newcommand{\sublinksection}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{tocsubsection.\thesubsection}{#2}\pagetarget{doc:\thesubsection}}
 \addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection}{}\penalty0}}
+
+\AddToShipoutPicture{\put(3,300){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\rightmark}}}}}}
 
 \begin{document}
 	\subfile{parts/general_info}
