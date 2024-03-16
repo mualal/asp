@@ -115,6 +115,12 @@ top=20mm,
 \newcommand{\sublinksection}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{tocsubsection.\thesubsection}{#2}\pagetarget{doc:\thesubsection}}
 \addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection}{}\penalty0}}
 
+\newcommand{\linksectionold}[2][\DefaultOpt]{\def\DefaultOpt{#2}\section[#1]{\protect\hyperlink{sec:\thesection-\thepage}{#2}\pagetarget{doc:\thesection}}
+\addtocontents{toc}{\protect\pagetarget{sec:\thesection-\thepage}{}}}
+
+\newcommand{\sublinksectionold}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{subsec:\thesubsection-\thepage}{#2}\pagetarget{doc:\thesubsection}}
+\addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection-\thepage}{}\penalty0}}
+
 
 \begin{document}
 	\subfile{parts/general_info}
