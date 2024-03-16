@@ -70,7 +70,7 @@ top=20mm,
 \fancypagestyle{plain}{%
 	\fancyhf{}%
 	\fancyhead[L]{\phantom{}\notselectableinacrobat{\pagelink{doc:\thesection}{\leftmark}}}%
-	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\textcolor{mygray2}{Вернуться к содержанию}}}}%
+	%\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\textcolor{mygray2}{Вернуться к содержанию}}}}%
 	%\fancyhead[L]{\leftmark \\ \rightmark}
 	%\fancyhead[R]{\thepage}
 	%\fancyhead[R]{\rightmark}
@@ -113,8 +113,6 @@ top=20mm,
 \newcommand{\sublinksection}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{tocsubsection.\thesubsection}{#2}\pagetarget{doc:\thesubsection}}
 \addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection}{}\penalty0}}
 
-\AddToShipoutPicture{\put(3,300){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\rightmark}}}}}}
-
 \begin{document}
 	\subfile{parts/general_info}
 	\tableofcontents
@@ -124,6 +122,21 @@ top=20mm,
 	Смольская Н.Б.\thanks{лектор. Аудиозаписи лекций \href{https://drive.google.com/drive/folders/1iSx2EjJJ98rhPpOsM4xGcJA7-7qitQHM?usp=sharing}{доступны по ссылке}.}
 	}
 	\maketitle
+	
+	\fancypagestyle{plain}{%
+	\fancyhf{}%
+	\fancyhead[L]{\phantom{}\notselectableinacrobat{\pagelink{doc:\thesection}{\leftmark}}}%
+	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\textcolor{mygray2}{Вернуться к содержанию}}}}%
+	%\fancyhead[L]{\leftmark \\ \rightmark}
+	%\fancyhead[R]{\thepage}
+	%\fancyhead[R]{\rightmark}
+	\fancyfoot[C]{\phantom{}\notselectableinacrobat{\hyperlink{tocsubsection.\thesubsection}{\thepage}}}
+	%\fancyfoot[L]{\rightmark}
+	}
+	\pagestyle{plain}
+	
+	\AddToShipoutPicture{\put(3,300){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\rightmark}}}}}}
+	
 	\begin{nohyphen}
 	\subfile{parts/2023_11_22}
 	\newpage
