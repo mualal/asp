@@ -27,7 +27,6 @@ left=8mm,
 top=20mm,
 }
 
-
 \usepackage{systeme}
 \usepackage{skak}
 \usepackage{mathtools}
@@ -121,6 +120,19 @@ top=20mm,
 \newcommand{\sublinksectionold}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{subsec:\thesubsection-\thepage}{#2}\pagetarget{doc:\thesubsection}}
 \addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection-\thepage}{}\penalty0}}
 
+%\usepackage{sectsty}
+%\sectionfont{\clearpage}
+
+%\usepackage{titlesec}
+%\newcommand{\subsectionbreak}{\clearpage}
+
+%\usepackage{etoolbox}
+%\preto{\subsection}{\ifnum\value{subsection}=0 \else\clearpage\fi}
+
+%\let\stdsubsection\subsection
+%\renewcommand\subsection{\clearpage\stdsubsection}
+%\let\stdsubsubsection\subsubsection
+%\renewcommand\subsubsection{\clearpage\stdsubsubsection}
 
 \begin{document}
 	\subfile{parts/general_info}
@@ -131,15 +143,12 @@ top=20mm,
 	Шипунова О.Д.\thanks{лектор. Аудиозаписи лекций \href{https://drive.google.com/drive/folders/1iSx2EjJJ98rhPpOsM4xGcJA7-7qitQHM?usp=sharing}{доступны по ссылке}.}
 	}
 	\maketitle
+	
 	\fancypagestyle{plain}{%
 	\fancyhf{}%
 	\fancyhead[L]{\phantom{}\notselectableinacrobat{\pagelink{doc:\thesection}{\leftmark}}}%
 	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\textcolor{mygray2}{Вернуться к содержанию}}}}%
-	%\fancyhead[L]{\leftmark \\ \rightmark}
-	%\fancyhead[R]{\thepage}
-	%\fancyhead[R]{\rightmark}
 	\fancyfoot[C]{\phantom{}\notselectableinacrobat{\hyperlink{tocsubsection.\thesubsection}{\thepage}}}
-	%\fancyfoot[L]{\rightmark}
 	}
 	\pagestyle{plain}
 	
