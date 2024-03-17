@@ -127,15 +127,11 @@ top=20mm,
 	\fancyhf{}%
 	\fancyhead[L]{\phantom{}\notselectableinacrobat{\pagelink{doc:\thesection}{\leftmark}}}%
 	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\textcolor{mygray2}{Вернуться к содержанию}}}}%
-	%\fancyhead[L]{\leftmark \\ \rightmark}
-	%\fancyhead[R]{\thepage}
-	%\fancyhead[R]{\rightmark}
 	\fancyfoot[C]{\phantom{}\notselectableinacrobat{\hyperlink{tocsubsection.\thesubsection}{\thepage}}}
-	%\fancyfoot[L]{\rightmark}
 	}
 	\pagestyle{plain}
 	
-	\AddToShipoutPicture{\put(3,300){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\rightmark}}}}}}
+	\AddToShipoutPicture{\put(3,300){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\notselectableinacrobat{\rightmark}}}}}}}
 	
 	\begin{nohyphen}
 	\subfile{parts/2023_11_22}
