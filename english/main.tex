@@ -113,6 +113,12 @@ top=20mm,
 \newcommand{\sublinksection}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{tocsubsection.\thesubsection}{#2}\pagetarget{doc:\thesubsection}}
 \addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection}{}\penalty0}}
 
+\newcommand{\linksectionold}[2][\DefaultOpt]{\def\DefaultOpt{#2}\section[#1]{\protect\hyperlink{sec:\thesection-\thepage}{#2}\pagetarget{doc:\thesection}}
+\addtocontents{toc}{\protect\pagetarget{sec:\thesection-\thepage}{}}}
+
+\newcommand{\sublinksectionold}[2][\DefaultOpt]{\def\DefaultOpt{#2}\subsection[#1]{\protect\hyperlink{subsec:\thesubsection-\thepage}{#2}\pagetarget{doc:\thesubsection}}
+\addtocontents{toc}{\protect\pagetarget{subsec:\thesubsection-\thepage}{}\penalty0}}
+
 \begin{document}
 	\subfile{parts/general_info}
 	\tableofcontents
@@ -150,11 +156,21 @@ top=20mm,
 	\newpage
 	\subfile{parts/2024_01_31_2}
 	\newpage
+	
+	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsubsection.8.1}{\textcolor{mygray2}{Вернуться к содержанию}}}}
+	
 	\subfile{parts/exam_2024_02_14.tex}
 	\newpage
+	
+	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsection.\thesection}{\textcolor{mygray2}{Вернуться к содержанию}}}}
+	
 	\subfile{parts/2024_03_13.tex}
 	\newpage
+	
+	\fancyhead[R]{\phantom{}\notselectableinacrobat{\hyperlink{tocsubsection.8.1}{\textcolor{mygray2}{Вернуться к содержанию}}}}
+	
 	\subfile{parts/training}
+	\newpage
 	\end{nohyphen}
 	
 \end{document}
