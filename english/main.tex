@@ -67,6 +67,7 @@ top=20mm,
 
 \usepackage{eso-pic, rotating, graphicx}
 \definecolor{mygray}{gray}{0.5}
+\definecolor{MYGRAY}{gray}{0.5}
 \definecolor{mygray2}{gray}{0.4}
 
 \fancypagestyle{plain}{%
@@ -149,7 +150,7 @@ top=20mm,
 	}
 	\pagestyle{plain}
 	
-	\AddToShipoutPicture{\put(3,300){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\notselectableinacrobat{\rightmark}}}}}}}
+	\AddToShipoutPicture{\put(3,200){\rotatebox{90}{\scalebox{1}{\pagelink{doc:\thesubsection}{\textcolor{mygray}{\notselectableinacrobat{\rightmark}}}}}}}
 	
 	\begin{nohyphen}
 	\setlength{\parskip}{4.7pt}
